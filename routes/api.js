@@ -1,10 +1,15 @@
 //dependencies
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 
 
 //endpoints
 router.get('/', function(req, res){
+    var rawdata = fs.readFileSync('../data.json');
+    var students = JSON.parse(rawdata);
+
+    console.log(students);
     res.status(200).json({message: "read all."});
 });
 router.post('/', function(req, res){
