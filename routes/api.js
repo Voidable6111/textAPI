@@ -2,15 +2,24 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var time = new Date();
+const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
 
 
 //endpoints
 router.get('/', function(req, res){
-    var rawdata = fs.readFileSync('../data.json');
-    var students = JSON.parse(rawdata);
+    //var rawdata = fs.readFileSync('../data.json');
+    //var students = JSON.parse(rawdata);
 
-    console.log(students);
-    res.status(200).json({message: "read all."});
+    //console.log(students);
+    time.getMonth();
+    time.getDay();
+    time.getHours();
+    time.getMinutes();
+    res.status(200).json({message: "read all." + "( [" + time.getHours() + ":" + time.getMinutes() + "] " + monthNames[time.getMonth()] + " " + time.getDate() +", " +  time.getFullYear() +")"});
+    
 });
 router.post('/', function(req, res){
     res.status(201).json({message: "create"});
