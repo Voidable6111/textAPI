@@ -10,10 +10,6 @@ const monthNames = ["January", "February", "March", "April", "May", "June",
 
 //endpoints
 router.get('/', function(req, res){
-    //var rawdata = fs.readFileSync('../data.json');
-    //var students = JSON.parse(rawdata);
-
-    //console.log(students);
     time.getMonth();
     time.getDay();
     time.getHours();
@@ -31,18 +27,4 @@ router.delete('/:id', function(req, res){
     res.status(200).json({message: "delete this"});
 });
 
-
-
-/*app.get('/test', function (req,res) {
-    var message = {message: "this is json"};
-    res.json(message);
-})
-
-app.get('/test/:name', function (req, res){
-    console.log('request params: ', req.params);
-    console.log('request body', req.body);
-    var name = req.params.name;
-
-    res.json({message: name, body: req.body});
-})*/
 module.exports = router;
