@@ -14,11 +14,16 @@ router.get('/', function(req, res) {
         var messages = JSON.parse(rawdata);
     
         console.log(messages);
-        /*messages = messages.filter((val) =>{
-            return val.text;
-        })*/
+
+        for(var i = 0; i<messages.length; i++){
+            messages[i].create_on = Date.now();
+        }
     
         res.status(200).json(messages);
+
+        for(var i = 0; i<messages.length; i++){
+            messages[i].update_on = Date.now();
+        }
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -29,10 +34,13 @@ router.get('/:id', function(req, res) {
     try {
         const rawdata = fs.readFileSync('data.json'); // <Buffer <hex code>
         var messages = JSON.parse(rawdata);
+
         messages[req.params.id].create_on = Date.now();
-        res.status(200).json(messages[req.params.id].name + ": " + messages[req.params.id].text + ", created: " + messages[req.params.id].create_on);
+
+        res.status(200).json(messages[req.params.id].name + ": " + messages[req.params.id].text + "       created: " + messages[req.params.id].create_on);
+        
         messages[req.params.id].update_on = Date.now();
-        //FIGURE TIMESTAMPS OUT HERE. THEN DO THE GET ABOVE WITHOUT AN ID, THEN PLAY CLEANUP BELOW. PRETTY MUCH IT.
+        //THEN DO THE GET ABOVE WITHOUT AN ID. PRETTY MUCH IT.
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -52,20 +60,24 @@ router.post('/', function(req, res) {
 
         var newObj = {
             name: null,
-            age: null,
-            currentGame: null
+            text: null,
+            create_on: null,
+            update_on: null
         };
 
         if (rawBody.name != null) {
             newObj.name = rawBody.name;
         }
         
-        if (rawBody.age != null) {
-            newObj.age = rawBody.age;
+        if (rawBody.text != null) {
+            newObj.test = rawBody.text;
         }
         
-        if (rawBody.currentGame != null) {
-            newObj.currentGame = rawBody.currentGame;
+        if (rawBody.create_on != null) {
+            newObj.create_on = rawBody.create_on;
+        }
+        if (rawBody.update_on != null) {
+            newObj.update_on = rawBody.update_on;
         }
         
 
@@ -104,12 +116,15 @@ router.patch('/:id', function(req, res) {
             messages[id].name = rawBody.name;
         }
         
-        if (rawBody.age != null) {
-            messages[id].age = rawBody.age;
+        if (rawBody.text != null) {
+            messages[id].text = rawBody.text;
         }
         
-        if (rawBody.currentGame != null) {
-            messages[id].currentGame = rawBody.currentGame;
+        if (rawBody.create_on != null) {
+            messages[id].create_on = rawBody.create_on;
+        }
+        if (rawBody.update_on != null) {
+            messages[id].update_on = rawBody.update_on;
         }
 
         // save (write) the data back to the file
